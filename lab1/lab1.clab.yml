@@ -1,0 +1,39 @@
+name: lab1
+
+mgmt:
+  network: network-1
+  ipv4-subnet: 192.168.100.0/24
+
+topology:
+  kinds:
+    vr-ros:
+      image: docker.io/vrnetlab/vr-routeros:6.47.9
+    linux:
+      image: alpine:3.20.3
+
+  nodes:
+    R01:
+      kind: vr-ros
+      mgmt-ipv4: 192.168.100.2
+    SW01:
+      kind: vr-ros
+      mgmt-ipv4: 192.168.100.3
+    SW02:
+      kind: vr-ros
+      mgmt-ipv4: 192.168.100.4
+    SW03:
+      kind: vr-ros
+      mgmt-ipv4: 192.168.100.5
+    PC01:
+      kind: linux
+      mgmt-ipv4: 192.168.100.6
+    PC02:
+      kind: linux
+      mgmt-ipv4: 192.168.100.7
+
+  links:
+    - endpoints: ["R01:eth2", "SW01:eth2"]
+    - endpoints: ["SW01:eth3", "SW02:eth2"]
+    - endpoints: ["SW01:eth4", "SW03:eth2"]
+    - endpoints: ["SW02:eth3", "PC01:eth2"]
+    - endpoints: ["SW03:eth3", "PC02:eth2"]
